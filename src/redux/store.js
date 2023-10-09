@@ -1,45 +1,13 @@
-import { createStore } from "redux";
+import { combineReducers, createStore } from "redux";
 import { devToolsEnhancer } from "@redux-devtools/extension";
+import { type } from "@testing-library/user-event/dist/type";
+import { accountReducer } from "./accountSlice";
+import {localeReducer} from './localeSlice'
 
-const initialState = {
-    account: {
-        balance: 0,
-    }
-};
-
-export const deposit = value => {
-    return {
-        type: "account/deposit",
-        payload: value,
-    };
-}
-
-export const withdraw = value => {
-    return {
-        type: "account/withdraw",
-        payload: value,
-    };
-}
-
-const rootReducer = ( state = initialState, action) => {
-    switch (action.type) {
-        case 'account/deposit':
-            return {  
-                account: {
-                balance: state.account.balance + action.payload,
-            },
-        };
-        case 'account/withdraw':
-            return {
-                account: {
-                    balance: state.account.balance + action.payload,
-                },
-            };
-
-            default:
-        return state;
-    }
-};
+const rootReducer = combineReducers ({
+    account: accountReducer,
+    locale: localeReducer,
+});
 
 const enhancer = devToolsEnhancer();
 

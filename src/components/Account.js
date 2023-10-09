@@ -1,5 +1,5 @@
-import {useDispatch, userSelector} from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, userSelector} from 'react-redux';
+import {deposit, withdraw} from 'redux/accountSlice'
 
 export const Account = () => {
     const dispatch = useDispatch()
