@@ -1,3 +1,6 @@
+import { type } from "@testing-library/user-event/dist/type";
+   
+
 export const accountReducer = (state = { balance: 500}, action) => {
     switch (action, type) {
         case 'account/deposit':
