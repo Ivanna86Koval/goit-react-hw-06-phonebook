@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
 import {Form, Label, FormItem, FormBtn} from './AddContactForm.styled'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const AddContactForm = () => {
+export const AddContactForm = ({ handleSubmit }) => {
   const contacts = useSelector(state => state.contacts);
 
   const dispatch = useDispatch();
