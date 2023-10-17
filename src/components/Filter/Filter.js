@@ -16,6 +16,7 @@ return (
   )
 }
 
+export default Filter;
 
 Filter.propTypes = {
   filter: propTypes.func

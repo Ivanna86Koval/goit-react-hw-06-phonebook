@@ -1,30 +1,42 @@
-import propTypes from 'prop-types';
 import { List, Item, ListItemBtn } from './ContactList.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/contactsSlice';
 
-export const ContactList = ({ contacts, handleDelete }) => {
+export const ContactList = ({ handleDelete }) => {
+  const contacts = useSelector(state => state.contacts);
+  const search = useSelector(state => state.filter);
+  const dispatch = useDispatch();
+
+  const onGetText = () => {
+    const normalizedFilter = search.toLowerCase().trim();
+    return contacts.filter(el => {
+      return el.name.toLowerCase().includes(normalizedFilter);
+    });
+  };
+  const deleteContacts = id => {
+    dispatch(deleteContact(id));
+  };
+
   return (
     <div>
       <List>
-      {contacts.map(contact => (
-        <Item key={contact.id}>
-          {contact.name}: {contact.number}
-          <ListItemBtn onClick={() => handleDelete(contact.id)}>Delete</ListItemBtn>
-        </Item>
-      ))}
+        {onGetText().map(contact => (
+          <Item key={contact.id}>
+            {contact.name} - {contact.number}
+            <ListItemBtn 
+              className="button-delete" 
+              type="button" 
+              onClick={() => {
+                deleteContact(contact.id);
+                handleDelete(contact.id); // Викликаємо handleDelete з ідентифікатором контакту
+              }}
+            >
+              Delete
+            </ListItemBtn>
+          </Item>
+        ))}
       </List>
     </div>
-  )
-}
-
-
-ContactList.propTypes = {
-  contacts: propTypes.arrayOf(
-    propTypes.shape({
-      id: propTypes.string.isRequired,
-      name: propTypes.string.isRequired,
-      number: propTypes.string.isRequired,
-    })
-  ),
-  handleDelete: propTypes.func.isRequired,
+  );
 };
 
