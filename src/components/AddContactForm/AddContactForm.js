@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
-import {Form, Label, FormItem, FormBtn} from './AddContactForm.styled'
+import { Form, Label, FormItem, FormBtn } from './AddContactForm.styled';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const AddContactForm = ({ handleSubmit }) => {
+export const AddContactForm = () => {
   const contacts = useSelector(state => state.contacts);
 
   const dispatch = useDispatch();
@@ -24,24 +24,24 @@ export const AddContactForm = ({ handleSubmit }) => {
     }
   };
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        const checkNewContact = contacts.some(item => {
-          return item.name.trim() === name.trim();
-        });
-        if (checkNewContact) {
-          toast.success(`${name} is already in book contacts `, {
-            position: toast.POSITION.TOP_RIGHT,
-          });
-          return;
-        }
-        dispatch(addContact({ name, number }));
-        setName('');
-        setNumber('');
-      };
-   
-     return (
-      <div>
+  const handleFormSubmit = e => {
+    e.preventDefault();
+    const checkNewContact = contacts.some(item => {
+      return item.name.trim() === name.trim();
+    });
+    if (checkNewContact) {
+      toast.success(`${name} is already in book contacts `, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return;
+    }
+    dispatch(addContact({ name, number }));
+    setName('');
+    setNumber('');
+  };
+
+  return (
+    <div>
       <Form onSubmit={handleFormSubmit}>
         <Label>Name</Label>
         <FormItem
@@ -58,19 +58,16 @@ export const AddContactForm = ({ handleSubmit }) => {
         <FormItem
           type="tel"
           name="number"
-           onChange={changeInput}
+          onChange={changeInput}
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           placeholder="Enter phone number"
           value={number}
-                />
-        <FormBtn type="submit">
-          Add contact
-        </FormBtn>
+        />
+        <FormBtn type="submit">Add contact</FormBtn>
         <ToastContainer />
       </Form>
-      </div>
-    );
-  }
-
+    </div>
+  );
+};
